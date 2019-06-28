@@ -32,7 +32,7 @@ public class CategoryDAO {
 
     public void remove(int id){
        String[] params = new String[1];
-       params[0] = new String.valueOf(id);
+       params[0] = String.valueOf(id);
        mConnection.delete("categoria","id = ?",params);
 
     }
@@ -42,7 +42,7 @@ public class CategoryDAO {
 
     public void alter(Category cat){
         ContentValues contentValues = new ContentValues();
-        ContentValues.put("tipo",cat.getTipo());
+        contentValues.put("tipo",cat.getTipo());
         String[] params = new String[1];
         params[0] = String.valueOf(cat.getId());
         mConnection.update("categoria",contentValues, "id = ?",params);
