@@ -25,15 +25,17 @@ public class DebtsDAO {
 
 
 
-    public void insert(Debts div){
+    public Debts insert(Debts div){
         ContentValues contentValues = new ContentValues();
         contentValues.put("valor", div.getValor());
         contentValues.put("descricao", div.getDescricao());
         contentValues.put("data_vencimento", div.getDataVencimento());
         contentValues.put("data_pagamento", div.getDataPagamento());
         contentValues.put("cod_cat", div.getCategoria().getId());
-        mConnection.insertOrThrow("dividas", null, contentValues);
+        long id = mConnection.insertOrThrow("dividas", null, contentValues);
         Log.d("DebtsDAO", "Inserção realizada com sucesso!");
+        div.setId(id);
+        return div;
     }
 
     public void remove(int id){
