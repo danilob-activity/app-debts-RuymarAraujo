@@ -7,15 +7,18 @@ package com.example.danilo.appdebts.classes;
 public class Category {
 
     private long mId;
-    private String mTipo;
+    public String mTipo;
+
+    public Category(String Tipo) {
+    }
 
 
-
-    public String getTipo() {
+    public String getTipo(){
         return mTipo;
     }
 
     public void setTipo(String tipo) {
+
         mTipo = tipo;
     }
 

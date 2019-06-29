@@ -42,7 +42,7 @@ public class TelaInicial extends AppCompatActivity {
         }
     }
 
-    public void populateDataBase(){
+    public void populateDataBase() {
         createConnection();
         Category cat1 = new Category("Casa");
         cat1 = mCategoryDAO.insert(cat1);
@@ -53,26 +53,29 @@ public class TelaInicial extends AppCompatActivity {
         Category cat3 = new Category("Colegio");
         cat3 = mCategoryDAO.insert(cat3);
 
-        Debts debt1 = new Debts(cat1,(float)79.80, "produtos de limpeza");
+        Debts debt1 = new Debts(cat2, "Lagosta", (float) 230.0, "15/07/2019", "10/07/2019");
         debt1 = mDebtsDAO.insert(debt1);
 
-        Debts debt2 = new Debts(cat2,(float)50.80, "Mistura" , 20/8/2019 ,);
+        Debts debt2 = new Debts(cat2, "Coxinha", (float) 5.0, "5/07/2019", "3/07/2019");
         debt2 = mDebtsDAO.insert(debt2);
 
-        Debts debt3 = new Debts(cat2,(float)20.80, "Bolos", 25/8/2019 ,);
+        Debts debt3 = new Debts(cat1, "Produtos de limpeza", (float) 100.0, "10/08/2019", "12/08/2019");
         debt3 = mDebtsDAO.insert(debt3);
 
-        Debts debt4 = new Debts(cat3,(float)100.00, "Filho1", 30/8/2019,);
+        Debts debt4 = new Debts(cat3, "Filho1", (float) 350.0, "20/08/2019", "16/08/2019");
         debt4 = mDebtsDAO.insert(debt4);
 
-        Debts debt5 = new Debts(cat2,(float)30.00, "Cerveja" , 20/7/2019, );
+        Debts debt5 = new Debts(cat2, "Carne", (float) 180.0, "25/08/2019", "20/08/2019");
         debt5 = mDebtsDAO.insert(debt5);
 
-        Debts debt6 = new Debts(cat2,(float)10.00,"Pao" "14/08/2019");
+        Debts debt6 = new Debts(cat3, "Filho2", (float) 500.0, "28/07/2019", "25/07/2019");
         debt6 = mDebtsDAO.insert(debt6);
 
-        Debts debt7 = new Debts(cat3,(float)150.00, "Filho2" , 30/7/2019 ,);
+        Debts debt7 = new Debts(cat2, "Pizza", (float) 85.0, "30/07/2019", "02/08/2019");
         debt7 = mDebtsDAO.insert(debt7);
+
+        Debts debt8 = new Debts(cat1, "Internet", (float) 130.0, "30/08/2019", "20/08/2019");
+        debt8 = mDebtsDAO.insert(debt8);
     }
 
 }
