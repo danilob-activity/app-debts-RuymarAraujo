@@ -42,7 +42,7 @@ public class TelaInicial extends AppCompatActivity {
         }
     }
 
-    public void populateDataBase() {
+    public void populateDataBase(){
         createConnection();
         Category cat1 = new Category("Casa");
         cat1 = mCategoryDAO.insert(cat1);
