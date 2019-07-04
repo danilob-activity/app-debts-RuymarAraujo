@@ -45,6 +45,7 @@ public class MainWindow extends AppCompatActivity {
         mListDebts = findViewById(R.id.recycler_view_debts);
         mLayout = findViewById(R.id.layout);
         createConnection();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mListDebts.setLayoutManager(linearLayoutManager);
         mDebtsAdapter = new DebtsAdapter(mDebtsDAO.listDebts());

@@ -15,6 +15,26 @@ public class Debts {
     public Debts() {
 
     }
+    public Debts(Category category, float valor, String descricao, String dataVencimento,  String dataPagamento) {
+        mCategoria = category;
+        mValor = valor;
+        mDescricao = descricao;
+        mDataVencimento = dataVencimento;
+        mDataPagamento = dataPagamento;
+    }
+
+    public Debts(Category category, float valor, String dataVencimento) {
+        mCategoria = category;
+        mValor = valor;
+        mDataVencimento = dataVencimento;
+    }
+
+    public Debts(Category category, float valor, String dataVencimento, String dataPagamento) {
+        mCategoria = category;
+        mValor = valor;
+        mDataVencimento = dataVencimento;
+        mDataPagamento = dataPagamento;
+    }
 
     public long getId() {
         return mId;
