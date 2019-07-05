@@ -8,20 +8,14 @@
     <TextView
         android:id="@+id/textViewDescription"
         android:layout_width="170dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:layout_height="31dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Descrição"
+        app:layout_constraintEnd_toStartOf="@+id/button_dataVenc"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="172dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -35,26 +29,55 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/Payment"
-        tools:layout_editor_absoluteX="233dp"
+        android:id="@+id/button_dataVenc"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:srcCompat="?android:attr/actionModePasteDrawable"
         tools:layout_editor_absoluteY="16dp" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/Delete"
-        tools:layout_editor_absoluteX="320dp"
+        android:id="@+id/Button_atualiza"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/Button_delete"
+        app:layout_constraintStart_toEndOf="@+id/button_dataVenc"
+        app:srcCompat="@drawable/baseline_autorenew_black_36"
         tools:layout_editor_absoluteY="16dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton3"
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/Atualizar"
-        tools:layout_editor_absoluteX="278dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="214dp" />
+
+    <ImageButton
+        android:id="@+id/Button_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_delete_black_48"
         tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/Payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment"
+        tools:layout_editor_absoluteX="222dp"
+        tools:layout_editor_absoluteY="72dp" />
+
+    <TextView
+        android:id="@+id/Pay"
+        android:layout_width="58dp"
+        android:layout_height="21dp"
+        android:text="Pay"
+        tools:layout_editor_absoluteX="222dp"
+        tools:layout_editor_absoluteY="100dp" />
+
 </android.support.constraint.ConstraintLayout>

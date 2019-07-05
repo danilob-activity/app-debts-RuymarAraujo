@@ -1,15 +1,18 @@
 package com.example.danilo.appdebts.adapters;
 
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.danilo.appdebts.R;
 import com.example.danilo.appdebts.classes.Debts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +21,17 @@ import java.util.List;
 
 public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDebts> {
     private List<Debts> mData;
+    private List<ViewHolderDebts> mDataViews = new ArrayList<ViewHolderDebts>();
+    private int selectedItem = -1; //indice do ultimo viewHolder selecionado
+    private int actualItem = -1; // indice do atual viewholder
+
+
+    private int mDescription;
+    private int mButtonVenc;
+    private int mButtonAtualiza;
+    private int mButtonDelete;
+
+
     public DebtsAdapter(List<Debts> data) {
         mData = data;
     }
@@ -28,6 +42,7 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.list_view_debts, parent, false);
         ViewHolderDebts holderDebts = new ViewHolderDebts(view);
+        mDataViews
         return holderDebts;
     }
 
@@ -44,6 +59,12 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
     }
     public class ViewHolderDebts extends RecyclerView.ViewHolder {
         public TextView mDescription;
+        public ImageButton mButtonVenc;
+        public ImageButton mButtonAtualiza;
+        public ImageButton mButtonDelete;
+        public TextView mPayment;
+        public TextView mPay;
+
 
         public ViewHolderDebts(View itemView) {
             super(itemView);
