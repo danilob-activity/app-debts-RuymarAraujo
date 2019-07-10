@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -68,7 +69,13 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
 
         public ViewHolderDebts(View itemView) {
             super(itemView);
-            mDescription = (TextView) itemView.findViewById(R.id.textViewDescription);
+            mDescription = itemView.findViewById(R.id.textViewDescription);
+            mButtonVenc = itemView.findViewById(R.id.button_dataVenc);
+            mButtonAtualiza = itemView.findViewById(R.id.Button_atualiza);
+            mButtonDelete = itemView.findViewById(R.id.Button_delete);
+            mPayment= itemView.findViewById(R.id.Payment);
+            mPay = itemView.findViewById(R.id.Pay);
+
         }
     }
 }

@@ -16,10 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".TelaInicial"
-            android:label="@string/title_activity_main_window"
-            android:theme="@style/AppTheme"></activity>
+
+        <activity android:name=".insert_debts" android:theme="@style/AppTheme2">
+        </activity>
     </application>
 
 </manifest>
