@@ -60,21 +60,35 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
     }
     public class ViewHolderDebts extends RecyclerView.ViewHolder {
         public TextView mDescription;
+        public TextView mCategory;
+        public TextView mDataPay;
+        public TextView mDataPayment;
+        public TextView mTextPayment;
+        public TextView mTextPay;
+
+
         public ImageButton mButtonVenc;
         public ImageButton mButtonAtualiza;
         public ImageButton mButtonDelete;
-        public TextView mPayment;
-        public TextView mPay;
+
 
 
         public ViewHolderDebts(View itemView) {
             super(itemView);
             mDescription = itemView.findViewById(R.id.textViewDescription);
+            mCategory = itemView.findViewById(R.id.textViewCategory);
+            mDataPay = itemView.findViewById(R.id.textViewPay);
+            mDataPayment = itemView.findViewById(R.id.textViewPayment);
+            mTextPayment = itemView.findViewById(R.id.textViewPaymentString);
+            mTextPay = itemView.findViewById(R.id.textViewPayString);
+
             mButtonVenc = itemView.findViewById(R.id.button_dataVenc);
             mButtonAtualiza = itemView.findViewById(R.id.Button_atualiza);
             mButtonDelete = itemView.findViewById(R.id.Button_delete);
-            mPayment= itemView.findViewById(R.id.Payment);
-            mPay = itemView.findViewById(R.id.Pay);
+
+            mButtonVenc.setVisibility(View.GONE);
+            mButtonAtualiza.setVisibility(View.GONE);
+
 
         }
     }
