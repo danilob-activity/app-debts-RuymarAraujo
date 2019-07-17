@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".insert_debts" android:theme="@style/AppTheme2">
+        <activity android:name=".InsertDebts" android:theme="@style/AppTheme2">
         </activity>
     </application>
 

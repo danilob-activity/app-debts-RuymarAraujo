@@ -6,6 +6,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/editTextPay"
+        android:layout_width="272dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:editable="false"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="none|numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TextViewPay"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate3" />
+
+    <EditText
+        android:id="@+id/editTextDate3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:editable="false"
+        android:ems="10"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPaymentorPay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewPaymentorPay"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+
     <TextView
         android:id="@+id/textViewCategoria"
         android:layout_width="wrap_content"
@@ -68,12 +100,11 @@
         android:id="@+id/textViewValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
         android:text="Value"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPaymentorPay" />
+        tools:layout_editor_absoluteY="171dp" />
 
     <Switch
         android:id="@+id/switchPay"
@@ -104,22 +135,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
 
-
     <EditText
         android:id="@+id/editTextValue"
         android:layout_width="272dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:editable="false"
         android:ems="10"
         android:focusable="false"
         android:inputType="none|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.294"
         app:layout_constraintStart_toEndOf="@+id/textViewValue"
-        tools:layout_editor_absoluteY="98dp" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPay" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButtonAddCategory"
@@ -135,5 +165,17 @@
         app:layout_constraintStart_toEndOf="@+id/spinnerCategories"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_add_white_18" />
+
+    <TextView
+        android:id="@+id/TextViewPay"
+        android:layout_width="54dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Pay"
+        app:layout_constraintBottom_toTopOf="@+id/textViewValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPaymentorPay" />
 </android.support.constraint.ConstraintLayout>
 

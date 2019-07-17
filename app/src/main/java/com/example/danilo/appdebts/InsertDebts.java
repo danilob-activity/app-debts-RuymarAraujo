@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.danilo.appdebts.classes.Category;
 import com.example.danilo.appdebts.classes.Debts;
@@ -143,13 +144,16 @@ import java.util.Locale;
 
 public class InsertDebts extends AppCompatActivity {
 
-    EditText mEditTextDataPay;
+
     Spinner mSpinnerCategory;
     final Calendar myCalendar = Calendar.getInstance();
+    Switch mSwitch;
 
     EditText mEditTextDescription;
     EditText mEditTextValue;
-    Switch mSwitch;
+    EditText mEditTextDataPay;
+    TextView mTextViewPayment;
+    TextView mTextViewPay;
 
     //inserção no banco de dados
     CategoryDAO mCategoryDAO;
