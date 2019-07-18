@@ -5,4 +5,5 @@
     <string name="okMenu">OK</string>
     <string name="cancelMenu">Cancel</string>
     <string name="titleInsert">NewDebts</string>
+    <string name="newCategoryTitle">Nova Categoria</string>
 </resources>

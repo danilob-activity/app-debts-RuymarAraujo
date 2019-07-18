@@ -38,7 +38,7 @@ public class DebtsDAO {
         return div;
     }
 
-    public void remove(int id){
+    public void remove(long id){
         String[] params = new String[1];
         params[0] = String.valueOf(id);
         mConnection.delete("dividas","id = ?",params);
@@ -102,6 +102,28 @@ public class DebtsDAO {
 
         return null;
 
+    }
+    public List<Debts> listDebtsByCategory(){
+        List<Debts> dividas = new ArrayList<Debts>();
+        Cursor result = mConnection.rawQuery("Select id, tipo from dividas",null);
+        if(result.getCount()>0){
+            result.moveToFirst();
+            CategoryDAO categoryDAO = new CategoryDAO(mConnection);
+            do{
+                Debts div = new Debts();
+                Category cat = categoryDAO.getCategory(result.getInt(result.getColumnIndexOrThrow("cod_cat")));
+                div.setId(result.getInt(result.getColumnIndexOrThrow("id")));
+                div.setValor(result.getFloat(result.getColumnIndexOrThrow("valor")));
+                div.setDescricao(result.getString(result.getColumnIndexOrThrow("descricao")));
+                div.setDataVencimento(result.getString(result.getColumnIndexOrThrow("data_vencimento")));
+                div.setDataPagamento(result.getString(result.getColumnIndexOrThrow("data_pagamento")));
+                div.setCategoria(cat);
+                dividas.add(div);
+                Log.d("DebtsDAO","Listando: "+ div.getId()+" - "+ div.getDescricao()+" - " + div.getValor());
+            }while(result.moveToNext());
+            result.close();
+        }
+        return dividas;
     }
 
 

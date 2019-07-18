@@ -34,126 +34,22 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-//public class insert_debts extends AppCompatActivity {
-//
-//    final Calendar myCalendar = Calendar.getInstance();
-//    EditText mEditTextDataPay;
-//    private String mText = ;
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_insert_debts);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Mostrar o botão
-//        getSupportActionBar().setHomeButtonEnabled(true); //Ativar o botão
-//        getSupportActionBar().setTitle(R.string.titleInsert);
-//
-//
-//
-//
-//        mEditTextDataPay = findViewById(R.id.editTextDate);
-//        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-//
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int monthOfYear,
-//                                  int dayOfMonth) {
-//                // TODO Auto-generated method stub
-//                myCalendar.set(Calendar.YEAR, year);
-//                myCalendar.set(Calendar.MONTH, monthOfYear);
-//                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                updateLabel();
-//            }
-//
-//        };
-//
-//        mEditTextDataPay.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                new DatePickerDialog(insert_debts.this, date, myCalendar
-//                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-//                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//            }
-//        });
-//
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Title");
-//
-//        // Set up the input
-//        final EditText input = new EditText(this);
-//        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        builder.setView(input);
-//
-//        // Set up the buttons
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                mText = input.getText().toString();
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
-//
-//    }
-//
-//    private void updateLabel() {
-//        String myFormat = "dd/MM/yyyy"; //In which you need put here
-//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-//
-//        mEditTextDataPay.setText(sdf.format(myCalendar.getTime()));
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_add_debts, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    //Botão na ToolBar
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                //ID do seu botão (gerado automaticamente pelo android, usando como está, deve funcionar
-//                //O efeito ao ser pressionado do botão (no caso abre a activity)
-//                startActivity(new Intent(this, MainWindow.class));
-//                finishAffinity();
-//                //Método para matar a activity e não deixa-lá indexada na pilhagem
-//                break;
-//            case R.id.okMenu:
-//                Log.d("ITEM MENU", "MENU: "+R.string.okMenu);
-//            default:break;
-//        }
-//        return true;
-//    }
-//
-//
-//}
-
 public class InsertDebts extends AppCompatActivity {
 
 
     Spinner mSpinnerCategory;
     final Calendar myCalendar = Calendar.getInstance();
-    Switch mSwitch;
+    Switch mSwitchPayed;
 
     EditText mEditTextDescription;
     EditText mEditTextValue;
     EditText mEditTextDataPay;
-    TextView mTextViewPayment;
+    EditText mTextViewPayment;
+    EditText mEditTextPay;
+
     TextView mTextViewPay;
+
+
 
     //inserção no banco de dados
     CategoryDAO mCategoryDAO;
@@ -163,7 +59,10 @@ public class InsertDebts extends AppCompatActivity {
 
 
     String newCategory = " " ;
+    private boolean mFlag;
+    private Debts mDebts;
 
+    ArrayAdapter<String> mAdapterCategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +75,7 @@ public class InsertDebts extends AppCompatActivity {
         mSpinnerCategory = findViewById(R.id.spinnerCategories);
         mEditTextDescription = findViewById(R.id.editTextDescription);
         mEditTextValue = findViewById(R.id.editTextValue);
-        mSwitch = findViewById(R.id.switchPay);
+        mSwitchPayed = findViewById(R.id.switchPay);
 
         mEditTextDataPay = findViewById(R.id.editTextDate);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -204,6 +103,21 @@ public class InsertDebts extends AppCompatActivity {
             }
         });
 
+        mTextViewPayment = findViewById(R.id.editTextDate);
+        mTextViewPay = findViewById(R.id.textViewPay);
+        mEditTextPay = findViewById(R.id.editTextPay);
+        checkParameters();
+        updateUI();
+
+        mEditTextDataPay.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(InsertDebts. this, date, myCalendar
+                        .get(Calendar. YEAR), myCalendar.get(Calendar. MONTH),
+                        myCalendar.get(Calendar. DAY_OF_MONTH)).show();
+            }
+        });
 
         //botão de adicionar categoria
         FloatingActionButton fab = findViewById(R.id.floatingActionButtonAddCategory);
@@ -224,7 +138,9 @@ public class InsertDebts extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mCategoryDAO.insert(new Category(input.getText().toString()));
+                        Category cat = mCategoryDAO.insert(new Category(input.getText().toString()));
+
+                        newCategory = cat.getTipo();
                         updateSpinnerCategory();
                         //m_Text = input.getText().toString();
                     }
@@ -255,11 +171,39 @@ public class InsertDebts extends AppCompatActivity {
             Category cat = categories.get(i);
             list.add(cat.getTipo());
         }
-
-        ArrayAdapter<String> adp1 = new ArrayAdapter<String>(this,
+        mAdapterCategory = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, list);
-        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerCategory.setAdapter(adp1);
+        mAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerCategory.setAdapter(mAdapterCategory);
+        mSpinnerCategory.setSelection(mAdapterCategory.getPosition(newCategory));
+    }
+
+
+
+    private void updateUI(){
+        if(mFlag){ //inserção
+            mTextViewPayment.setVisibility(View.GONE);
+            mEditTextDataPay.setVisibility(View.GONE);
+        }else{
+            mTextViewPayment.setVisibility(View.VISIBLE);
+            mEditTextDataPay.setVisibility(View.VISIBLE);
+            mSwitchPayed.setVisibility(View.GONE);
+            getSupportActionBar().setTitle("Change Debt");
+            mTextViewPayment.setText("Payment");
+        }
+    }
+
+    private void checkParameters(){
+        Bundle bundle = getIntent().getExtras();
+        if((bundle!=null) && bundle.containsKey( "DEBT")){
+            mDebts = (Debts) bundle.getSerializable( "DEBT");
+            mEditTextDescription.setText(mDebts.getDescricao());
+            mEditTextDataPay.setText(mDebts.getDataPagamento());
+            mEditTextDataPay.setText(mDebts.getDataPagamento());
+            mEditTextValue.setText(String. valueOf(mDebts.getValor()));
+            mSpinnerCategory.setSelection( mAdapterCategory.getPosition( mDebts.getCategoria().getTipo()));
+            mFlag = false;
+        }
     }
 
     //criar conexão
@@ -303,7 +247,7 @@ public class InsertDebts extends AppCompatActivity {
     }
 
 
-    private void checkDate() {
+    private Debts checkDate() {
         Debts debt = null;
         String msg = "";
         if (mEditTextDescription.getText().toString().isEmpty())
@@ -329,8 +273,10 @@ public class InsertDebts extends AppCompatActivity {
             debt.setDataPagamento(mEditTextDataPay.getText().toString());
             debt.setDescricao(mEditTextDescription.getText().toString());
             debt.setValor(Float.parseFloat(mEditTextValue.getText().toString()));
-            if (mSwitch.isChecked()) {
+            if (mSwitchPayed.isChecked()) {
                 debt.setDataPagamento(debt.getDataPagamento());
+            }else{
+                debt.setDataPagamento("");
             }
         }
         return debt;

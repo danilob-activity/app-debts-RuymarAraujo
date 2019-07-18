@@ -11,27 +11,40 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.danilo.appdebts.adapters.DebtsAdapter;
 import com.example.danilo.appdebts.dao.DebtsDAO;
 import com.example.danilo.appdebts.database.DataBaseHelper;
 
-public class MainWindow extends AppCompatActivity {
+public class   MainWindow extends AppCompatActivity {
 
     RecyclerView mListDebts;
     DebtsAdapter mDebtsAdapter;
     DebtsDAO mDebtsDAO;
     private ConstraintLayout mLayout;
-
     private SQLiteDatabase mConection;
     private DataBaseHelper mDataHelper;
+    private Spinner mSpinnerFilter;
+
+    final String[] mOptionsFilter = {
+            "Todas as Dívidas",
+            "Dívidas em Aberto",
+            "Dividas Pagas",
+            "Dívidas por Categoria",
+            "Dívidas em Atraso"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_window);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +64,38 @@ public class MainWindow extends AppCompatActivity {
         mDebtsAdapter = new DebtsAdapter(mDebtsDAO.listDebts());
         mListDebts.setAdapter(mDebtsAdapter);
         mListDebts.setHasFixedSize(true);
+
+        mSpinnerFilter = findViewById(R.id. spinnerFilter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout. simple_spinner_dropdown_item,
+                mOptionsFilter
+        );
+        mSpinnerFilter.setAdapter(adapter);
+
+        mSpinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                switch(position){
+                    case 0:{
+                        mDebtsAdapter = new DebtsAdapter(mDebtsDAO.listDividas());
+                        mListDebts.setAdapter(mDebtsAdapter);
+                        break;
+                    }
+                    case 3:{
+                        mDebtsAdapter = new DebtsAdapter(mDebtsDAO.listDebtsByCategory());
+                        mListDebts.setAdapter(mDebtsAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
     }
 
     private void createConnection() {
