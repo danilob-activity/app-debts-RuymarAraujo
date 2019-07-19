@@ -1,5 +1,6 @@
 package com.example.danilo.appdebts.adapters;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -8,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.danilo.appdebts.MainWindow;
 import com.example.danilo.appdebts.R;
 import com.example.danilo.appdebts.classes.Debts;
 import com.example.danilo.appdebts.dao.DebtsDAO;
@@ -24,6 +27,10 @@ import java.util.List;
  */
 //
 
+
+
+
+
 public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDebts> {
     private List<Debts> mData;
 
@@ -35,11 +42,60 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
     private int selectedItem = -1; //índice do último viewholder selecionado
     private int actualItem = -1;   //índice do atual viewholder selecionado
 
-    public DebtsAdapter(List<Debts> data) {
+    final int PAY = 0;
+    final int ALTER = 1;
+    final int DELETE = 2;
+
+    private DebtsAdapter mDebtsAdapter = this;
+    private int mFilterType = 0;
+    private double mValuePayed = 0;
+    private double mValueToPay = 0;
+    private Context mContext;
+    private MainWindow mMainWindow;
+
+
+    public DebtsAdapter(List<Debts> data, MainWindow mainwindow , {
+
         mData = data;
+        for(int i=0; i<mData.size();i++){
+            if(mData.get(i).getDataVencimento().isEmpty()){
+                mValueToPay += mData.get(i).getValor();
+            }else{
+                mValuePayed += mData.get(i).getValor();
+            }
+        }
+        mMainWindow = mainwindow;
+        mMainWindow.updateUI();
     }
 
-    private Context mContext;
+
+    public void makeDecisions(int operation, int position){
+        switch (operation){
+            case PAY:{
+                Debts debts = mData.get(position);
+                mValuePayed += debts.getValor();
+                mValueToPay += debts.getValor();
+                if(mFilterType==1 || mFilterType==4){
+                    mData.remove(position);
+                    mDebtsAdapter.notifyItemRemoved(position);
+                }
+                break;
+            }
+            case ALTER: {
+                break;
+            }
+            case DELETE: {
+                Debts debt = mData.get(position);
+                if (debt.getDataVencimento().isEmpty()){
+                    mValueToPay -= debt.getValor();
+                }else{
+                    mValuePayed -= debt.getValor();
+                } break;
+            }
+        }
+        mMainWindow.updateUI(mValueToPay,mValuePayed);
+    }
+
 
     @NonNull
     @Override
@@ -144,7 +200,7 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
                 }
             });
 
-            mButtonDelete.setOnClickListener(new View.OnClickListener() {
+            mButtonDelete.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mData.size() > 0) {
@@ -153,11 +209,30 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
                         SQLiteDatabase mConection = mDataHelper.getWritableDatabase();
                         DebtsDAO debtDAO = new DebtsDAO(mConection);
                         debtDAO.remove(debt.getId());
+                        makeDecisions(DELETE, getLayoutPosition());
                         mData.remove(getLayoutPosition());
-                        notifyItemRemoved(getLayoutPosition());
+                        mDebtsAdapter.notifyItemRemoved(getLayoutPosition());
                     }
                 }
             });
+
+            mButtonPay.setOnClickListener( new View.OnClickListener() {
+                final DatePickerDialog.OnDateSetListener datePay = (View,)
+                @Override
+                public void onClick(View view) {
+                    if (mData.size() > 0) {
+                        Debts debt = mData.get(getLayoutPosition());
+                        DataBaseHelper mDataHelper = new DataBaseHelper(mContext);
+                        SQLiteDatabase mConection = mDataHelper.getWritableDatabase();
+                        DebtsDAO debtDAO = new DebtsDAO(mConection);
+                        debtDAO.remove(debt.getId());
+                        makeDecisions(DELETE, getLayoutPosition());
+                        mData.remove(getLayoutPosition());
+                        mDebtsAdapter.notifyItemRemoved(getLayoutPosition());
+                    }
+                }
+            });
+
         }
     }
 }

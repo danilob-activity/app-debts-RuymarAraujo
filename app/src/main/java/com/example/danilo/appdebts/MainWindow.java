@@ -31,6 +31,11 @@ public class   MainWindow extends AppCompatActivity {
     private DataBaseHelper mDataHelper;
     private Spinner mSpinnerFilter;
 
+    private TextView mTextViewValor;
+    private TextView mTextViewValorToPay;
+    private MainWindow mMainWindow;
+
+
     final String[] mOptionsFilter = {
             "Todas as Dívidas",
             "Dívidas em Aberto",
@@ -61,7 +66,7 @@ public class   MainWindow extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mListDebts.setLayoutManager(linearLayoutManager);
-        mDebtsAdapter = new DebtsAdapter(mDebtsDAO.listDebts());
+        mDebtsAdapter = new DebtsAdapter(mDebtsDAO.listDividas());
         mListDebts.setAdapter(mDebtsAdapter);
         mListDebts.setHasFixedSize(true);
 
@@ -107,6 +112,11 @@ public class   MainWindow extends AppCompatActivity {
         } catch (SQLException e) {
             Snackbar.make(mLayout, e.toString(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    public void updateUI(double val_to_pay, double val_payed){
+        mTextViewValor.setText(String.valueOf(val_payed));
+        mTextViewValorToPay.setText(String.valueOf(val_to_pay));
     }
 
 }
