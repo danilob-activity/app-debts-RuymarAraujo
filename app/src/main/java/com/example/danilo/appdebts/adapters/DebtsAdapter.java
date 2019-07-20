@@ -19,7 +19,9 @@ import com.example.danilo.appdebts.classes.Debts;
 import com.example.danilo.appdebts.dao.DebtsDAO;
 import com.example.danilo.appdebts.database.DataBaseHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -45,6 +47,8 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
     final int PAY = 0;
     final int ALTER = 1;
     final int DELETE = 2;
+
+    final Calendar myCalendar = Calendar.getInstance();
 
     private DebtsAdapter mDebtsAdapter = this;
     private int mFilterType = 0;
@@ -101,6 +105,8 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
     @Override
     public DebtsAdapter.ViewHolderDebts onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
+        final Calendar myCalendar = Calendar.getInstance();
+        
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
         View view = layoutInflater.inflate(R.layout.list_view_debts, parent, false);
@@ -110,6 +116,7 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
 
         return holderDebts;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDebts holder, int position) {
@@ -169,7 +176,7 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
             mButtonDelete = itemView.findViewById(R.id.imageButtonDelete);
             mTextPay = itemView.findViewById(R.id.textViewPayString);
             mTextPayment = itemView.findViewById(R.id.textViewPaymentString);
-            mLayout = itemView.findViewById(R.id.linearLayout);
+            mLayout = itemView.findViewById(R.id.Layout);
 
 
             mButtonPay.setVisibility(View.GONE);
@@ -217,20 +224,30 @@ public class DebtsAdapter extends RecyclerView.Adapter<DebtsAdapter.ViewHolderDe
             });
 
             mButtonPay.setOnClickListener( new View.OnClickListener() {
-                final DatePickerDialog.OnDateSetListener datePay = (View,)
-                @Override
-                public void onClick(View view) {
-                    if (mData.size() > 0) {
-                        Debts debt = mData.get(getLayoutPosition());
-                        DataBaseHelper mDataHelper = new DataBaseHelper(mContext);
-                        SQLiteDatabase mConection = mDataHelper.getWritableDatabase();
-                        DebtsDAO debtDAO = new DebtsDAO(mConection);
-                        debtDAO.remove(debt.getId());
-                        makeDecisions(DELETE, getLayoutPosition());
-                        mData.remove(getLayoutPosition());
-                        mDebtsAdapter.notifyItemRemoved(getLayoutPosition());
-                    }
+                final DatePickerDialog.OnDateSetListener datePay = (DatePicker View, int year, int monthOfYear,
+                int dayOfMonth);
+
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "dd/MM/yyyy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+                String datapay = sdf.format(myCalendar.getTime());
+
+                if(mData.size()>0){
+                    Debts debt = mData.get(getLayoutPosition());
+                    DataBaseHelper mDataHelper = new DataBaseHelper(mContext);
+                    SQLiteDatabase mConection = mDataHelper.getWritableDatabase();
+                    DebtsDAO debtsDAO = new DebtsDAO(mConection);
+                    debt.setDataPagamento(datapay);
+                    debtsDAO.alter(debt);
+                    mDebtsAdapter.notifyItemChanged(getLayoutPosition());
+                    makeDecisions(PAY, getLayoutPosition());
                 }
+
+
+
             });
 
         }
